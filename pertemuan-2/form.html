@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabel dan Form</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- font dari google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form_guah">
+        <h2>Tambah Mahasiswa</h2>
+    <form>
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="Jenis_kelamin" class="jklmn"> Jenis Kelamin : </label>
+    <select name="select_gender">
+        <option> pilih jenis kelamin </option>
+        <option> Laki-laki </option>
+        <option> Perempuan </option>
+    </select>
+    <button>Submit</button>
+    </form>
+    </div>
+</body>
+</html>
