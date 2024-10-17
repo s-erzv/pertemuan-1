@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal 2 - WebDev</title>
+    <!-- font dari google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Quicksand", sans-serif;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(157, 157, 226);
+            font-weight: 700;
+        }
+
+        h1 {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 10px;
+            width: 95%;
+            margin: 50px auto;
+
+        }
+
+        .one, .two, .three, .four {
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .one {
+            grid-column: span 2;
+        }
+        
+        .four {
+            grid-column: 2 / 3;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <h1>Belajar Grid</h1>
+    <div class="container">
+        <p class="one">One</p>
+        <p class="two">Two</p>
+        <p class="three">Three</p>
+        <p class="four">Four</p>
+    </div>
+</body>
+</html>
