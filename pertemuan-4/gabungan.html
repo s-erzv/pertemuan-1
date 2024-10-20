@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- font dari google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <div class="jam" style="display: flex;justify-content: center;">
+            <div class="jam-digital" style="display: flex;justify-content: center;gap: 15px;width: auto;margin: 20px auto;font-size: 1.5rem;padding: 1px 5px;font-weight:500;">
+                <div class="kotak" style="width: 110px;height: auto;background-color: #ffffff;display: flex;justify-content: center;align-items: center;border-radius: 10px; box-shadow:  rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <p id="jam">00</p>
+                </div>
+                <div class="kotak" style="width: 110px;height: auto;background-color: white;display: flex;justify-content: center;align-items: center;border-radius: 10px; box-shadow:  rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <p id="menit">00</p>
+                </div>
+                <div class="kotak" style="width: 110px;height: auto;background-color: white;display: flex;justify-content: center;align-items: center;border-radius: 10px; box-shadow:  rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <p id="detik">00</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form_guah">
+            <h2>Tambah Mahasiswa</h2>
+            <form id="myForm">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama[]" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email[]" required>
+                
+                <label for="Jenis_kelamin" class="jklmn">Jenis Kelamin:</label>
+                <select id="gender" name="select_gender[]" required>
+                    <option value="">Pilih jenis kelamin</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
+                
+                <button id="btn" type="button" onclick="addMore()">Submit</button>
+            </form>
+        </div>
+        <div id="anotherLine"></div>
+    </main>
+    <script>
+        //tugas poin 1 dan 2
+        function addMore() {
+            var nama = document.getElementById('nama').value.toUpperCase();
+            var email = document.getElementById('email').value.toUpperCase();
+            var gender = document.getElementById('gender').value;
+
+            var divCreate = document.createElement("div");
+
+            //style tambahan
+            divCreate.style.backgroundColor = "white";
+            divCreate.style.margin = "1rem";
+            divCreate.style.padding = "20px";
+            divCreate.style.borderRadius = "10px";
+            divCreate.style.boxShadow = "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px";
+
+
+            divCreate.innerHTML = `
+                            <h2>Tambah Mahasiswa</h2>
+                <form id="myForm">
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" value="${nama}" required>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="${email}" required>
+                    
+                    <label for="Jenis_kelamin" class="jklmn">Jenis Kelamin:</label>
+                    <select id="gender" name="select_gender" required>
+                        <option value="">Pilih jenis kelamin</option>
+                        <option value="Laki-laki" ${gender === 'Laki-laki' ? 'selected' : ''}>Laki-laki</option>
+                        <option value="Perempuan" ${gender === 'Perempuan' ? 'selected' : ''}>Perempuan</option>
+                    </select>
+                    
+                    <button type="button" onclick="addMore()">Submit</button>
+                </form>
+                `
+
+            document.getElementById('anotherLine').appendChild(divCreate);
+
+            document.getElementById('myForm').reset();
+        }
+
+        //tugas poin 3
+        document.getElementById("btn").addEventListener("click", function() {
+            alert("Selamat! Data berhasil tersimpan");
+        });
+
+        //tugas point 4 - jam
+        window.setTimeout("waktu()", 1000);
+ 
+        function waktu() {
+            var waktu = new Date();
+            setTimeout("waktu()", 1000);
+            document.getElementById("jam").innerHTML = waktu.getHours();
+            document.getElementById("menit").innerHTML = waktu.getMinutes();
+            document.getElementById("detik").innerHTML = waktu.getSeconds();
+        }
+
+    </script>
+</body>
+</html>

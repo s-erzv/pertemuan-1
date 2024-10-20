@@ -11,10 +11,6 @@ body {
  
 }
 
-main {
-    display: grid;
-}
-
 h2 {
     text-align: center;
 }
@@ -59,6 +55,4 @@ button:hover {
     justify-content: center;
     margin: 1rem;
 }
-
-
 
