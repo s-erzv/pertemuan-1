@@ -43,7 +43,8 @@
                     <option value="Perempuan">Perempuan</option>
                 </select>
                 
-                <button id="btn" type="button" onclick="addMore()">Submit</button>
+                <button id="btn-submit" type="button" >Submit</button>
+                <button id="btn" type="button" onclick="addMore()">Tambah Data Mahasiswa</button>
             </form>
         </div>
         <div id="anotherLine"></div>
@@ -91,7 +92,8 @@
         }
 
         //tugas poin 3
-        document.getElementById("btn").addEventListener("click", function() {
+        document.getElementById("btn-submit").addEventListener("click", function() {
+            location.reload();
             alert("Selamat! Data berhasil tersimpan");
         });
 
