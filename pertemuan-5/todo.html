@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tugas Harian | Tugas Pertemuan 5</title>
+    
+    <!-- font dari google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background-image: linear-gradient(white, rgb(205, 237, 255));
+            background-repeat: no-repeat ;
+            margin: 0;
+            padding: 20px;
+            height: auto;
+            min-height: 15.7cm;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1.5px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        
+        button {
+            padding: 13px 20px;
+            background-color: #98bddd;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0px 3px;
+        }
+        
+        button:hover {
+            background-color: #21385b;
+        }
+
+        ul {
+            list-style-type: circle;
+            width: 94%;
+            margin-left: 0;
+        }
+        
+        li {
+            background-color: #fff;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        p {
+            flex: 1;
+            margin-left: 5px;
+            font-weight: 500;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Daftar Tugas Harian</h1>
+    
+    <form>
+        <input type="text" id="taskInput" required>
+        <button type="submit" onclick="addTask()">Tambah Tugas</button>
+    </form>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById('taskInput');
+            var taskList = document.getElementById('taskList');
+
+            var listItem = document.createElement('li');
+            var taskText = document.createElement('p');
+            taskText.textContent = taskInput.value;
+            listItem.appendChild(taskText);
+
+            var editButton = document.createElement('button');
+            editBtnText = document.createTextNode('Edit');
+            editButton.appendChild(editBtnText);
+            editButton.onclick = function editTask() {
+                var newTask = prompt('Mau edit jadi apa:', taskText.textContent);
+                if (newTask) {
+                    taskText.textContent = newTask;
+                }
+            };
+            listItem.appendChild(editButton);
+
+            var deleteButton = document.createElement('button');
+            deleteBtnText = document.createTextNode('Hapus');
+            deleteButton.appendChild(deleteBtnText)
+            deleteButton.onclick = function deleteTask() {
+                taskList.removeChild(listItem);
+            };
+            listItem.appendChild(deleteButton);
+
+            taskList.appendChild(listItem);
+
+            taskInput.value = '';
+        }
+
+    </script>
+</body>
+</html>

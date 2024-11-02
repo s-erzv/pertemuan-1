@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+
+    <!-- font dari google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background-image: linear-gradient(white, rgb(205, 237, 255));
+            background-repeat: no-repeat ;
+            margin: 0;
+            padding: 20px;
+            height: auto;
+            min-height: 15.7cm;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1.5px solid #ccc;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        
+        
+        button {
+            padding: 13px 20px;
+            background-color: #98bddd;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0px 3px;
+        }
+        
+        button:hover {
+            background-color: #21385b;
+        }
+
+        ul {
+            list-style-type: circle;
+            width: 94%;
+            margin-left: 0;
+            
+        }
+        
+        li {
+            background-color: #fff;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin: 15px 5px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+
+        }
+        
+    
+
+    </style>
+</head>
+<body>
+
+    <input type="text" name="title" id="title" placeholder="Title">
+    <input type="text" name="description" id="description" placeholder="Description">
+    <button id="submit-todo" onclick="submitTodo()">Submit</button>
+    
+    <hr>
+    <input type="text" id="todo-id" placeholder="Enter Todo ID">
+    <button onclick="getTodoById()">Get Todo by ID</button>
+    <hr>
+    <button id="fetch-data" onclick="getAllData()">Get All Data</button>
+    
+    <h1>Todo List</h1>
+    <ul id="todo-lists"></ul>
+
+    <div id="todo-detail" style="display:none; padding: 30px; margin-top: 10px; background-color: white; border-radius: 10px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+        <h2>Todo Detail</h2>
+        <p id="todo-title"></p>
+        <p id="todo-description"></p>
+        <button id="edit-todo" onclick="editTodo()" style="margin-right: 10px;">Edit</button>
+        <button id="delete-todo" onclick="deleteTodo()">Hapus</button>
+    </div>
+
+    <script>
+        function getAllData() {
+            var ul = document.getElementById('todo-lists');
+            ul.innerHTML = '';
+
+            var url = 'https://api.freeapi.app/api/v1/todos?query=&complete=false';
+            var xhr = new XMLHttpRequest(); 
+            xhr.open('GET', url, true);
+            xhr.send();
+
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4) {
+                    var response = JSON.parse(xhr.responseText);
+                    response.data.map(dat => {
+                        var li = document.createElement('li'); 
+                        li.innerHTML = '<strong>' + dat.title + '</strong> - ' + dat.description + ' - ' + (dat.id || dat._id); 
+                        ul.appendChild(li);
+                    });
+                }
+            }
+        }
+
+        function submitTodo() {
+            var inputTitle = document.getElementById('title');
+            var inputDescription = document.getElementById('description');
+
+            const url = 'https://api.freeapi.app/api/v1/todos/'; 
+            const method = 'POST'; 
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url, true); 
+            var data = {
+                description: inputDescription.value,
+                title: inputTitle.value,
+            };
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+            
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4) { 
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(response);
+                }
+            }
+
+            inputTitle.value = '';
+            inputDescription.value = '';
+        }
+
+        function getTodoById() {
+            var todoId = document.getElementById('todo-id').value;
+            var url = 'https://api.freeapi.app/api/v1/todos/' + todoId; 
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.send();
+        
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4) { 
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.data) {
+                        document.getElementById('todo-title').innerText = "Title: " + response.data.title;
+                        document.getElementById('todo-description').innerText = "Description: " + response.data.description;
+                        
+                        document.getElementById('todo-detail').style.display = 'block';
+                        
+                        document.getElementById('edit-todo').setAttribute('data-id', response.data.id || response.data._id);
+                        document.getElementById('delete-todo').setAttribute('data-id', response.data.id || response.data._id);
+                    } else {
+                        alert("Todo with ID " + todoId + " ga ada");
+                    }
+                }
+            }
+        }
+
+        function editTodo() {
+            var todoId = document.getElementById('edit-todo').getAttribute('data-id');
+            var inputTitle = document.getElementById('title');
+            var inputDescription = document.getElementById('description');
+
+            inputTitle.value = document.getElementById('todo-title').innerText.replace("Title: ", "");
+            inputDescription.value = document.getElementById('todo-description').innerText.replace("Description: ", "");
+            
+            const url = 'https://api.freeapi.app/api/v1/todos/' + todoId; 
+            const method = 'PUT'; 
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url, true); 
+            var data = {
+                description: inputDescription.value,
+                title: inputTitle.value,
+            };
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+            
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4) { 
+                    var response = JSON.parse(xhr.responseText);
+                    alert("Todo berhasil diedit");
+                    getAllData();
+                }
+            }
+        }
+        
+        function deleteTodo() {
+            var todoId = document.getElementById('delete-todo').getAttribute('data-id');
+            const url = 'https://api.freeapi.app/api/v1/todos/' + todoId; 
+            const method = 'DELETE'; 
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url, true); 
+            xhr.send();
+            
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4) { 
+                    var response = JSON.parse(xhr.responseText);
+                    alert("Todo berhasil dihapus");
+                    getAllData(); 
+                }
+            }
+        }
+    </script>
+</body>
+</html>
